@@ -1,0 +1,98 @@
+﻿@model Telcel.R9.Estructura.Negocio.Empleado
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12">
+            <h2>Empleados</h2>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <h6 class="text-center">Selecione el botón "+" para añadir un empleado o el botón rojo para eliminarlo </h6>
+        </div>
+    </div>
+    <br />
+
+    <div class="align-content-center">
+        @using(Html.BeginForm("GetAll", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+            <div class="col-xl-4">
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @placeholder = "Nombre", @autocomplete = "off" })
+            </div>
+            <div class="col-xl-4">
+                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno", @placeholder = "Apellido Paterno", @autocomplete = "off" })
+            </div>
+            <div class="col-xl-4">
+                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno", @placeholder = "Apellido Materno", @autocomplete = "off" })
+            </div>
+        </div> 
+        <br />
+        <div class="row justify-content-end"> @* Justificar todo a la derecha (al final) *@
+            <div class="col-xl-4"> 
+                <input type="submit" value="Buscar" class="btn btn-primary float-end" formmethod="post"> @* La clase float-end mueve a la derecha el elemento *@
+            </div>
+        </div>
+        <br />
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <p class="text-right">@Html.ActionLink("+", "Form", "Empleado", htmlAttributes: new { @class = "btn btn-success" })</p> <!-- text-right de prueba para este mensaje -->
+        </div>
+    </div>
+    <br/>
+
+    @if(Model.Empleados.Count > 0)
+    {
+        <div class="row">
+            <div class="col-xl-12">
+                <table class="table table-bordered table-responsive">
+                    <thead>
+                        <tr class="text-center">
+                            <td class = "form-group" style = "display: none;">IdEmpleado</td>
+                            <td>Nombre Completo</td>
+                            <td class = "form-group" style = "display: none;">IdPuesto</td>
+                            <td>Puesto</td>
+                            <td class = "form-group" style = "display: none;">IdDepartamento</td>
+                            <td>Departamento</td>
+                            <td>Eliminar</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach (Telcel.R9.Estructura.Negocio.Empleado empleado in Model.Empleados)
+                    {
+                        <tr class="text-center">                            
+                            <td class = "form-group" style = "display: none;">@empleado.IdEmpleado</td>
+                            <td>@empleado.Nombre @empleado.ApellidoPaterno @empleado.ApellidoMaterno</td>
+                            <td class = "form-group" style = "display: none;">@empleado.Puesto.IdPuesto</td>
+                            <td>@empleado.Puesto.Nombre</td>
+                            <td class = "form-group" style = "display: none;">@empleado.Departamento.IdDepartamento</td>
+                            <td>@empleado.Departamento.Nombre</td>
+                            <td><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Empleado", new { IdEmpleado = empleado.IdEmpleado })" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="alert alert-danger" role="alert">
+                    No se encontraron registros de empleado!!!
+                </div>
+            </div>
+        </div>
+    }
+   
+</div>

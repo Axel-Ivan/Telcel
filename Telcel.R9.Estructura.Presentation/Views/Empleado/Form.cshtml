@@ -1,0 +1,89 @@
+﻿@model Telcel.R9.Estructura.Negocio.Empleado
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Añadir Empleado</h1>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h5 class="text-left">Llene los campos con la información del empleado que desea registrar de acuerdo a lo que se indica.</h5>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("Form", "Empleado", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+                    <div class="col-md-12" >
+                        <div class = "form-group" style = "display: none;">                      
+                            @Html.LabelFor(model => model.IdEmpleado, new { @class = "hidden" })
+                            @Html.TextBoxFor(model => model.IdEmpleado, new { @class = "hidden from-control", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">                      
+                        @Html.LabelFor(model => model.Nombre)
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-emoji-smile-fill"></i></span>                           
+                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @onkeypress = "return SoloLetras(this, 'lblErrorNombre')", @autocomplete = "off" })                        
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Nombre)
+                        <label class="alert-danger" id="lblErrorNombre"></label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.ApellidoPaterno)
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-bounding-box"></i></span>
+                            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @id = "txtApellidoPaterno", @onkeypress = "return SoloLetras(this, 'lblErrorApellidoPaterno')", @autocomplete = "off" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                        <label class="alert-danger" id="lblErrorApellidoPaterno"></label>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.ApellidoMaterno)
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-bounding-box"></i></span>
+                            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @id = "txtApellidoMaterno", @onkeypress = "return SoloLetras(this, 'lblErrorApellidoMaterno')", @autocomplete = "off" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                        <label class="alert-danger" id="lblErrorApellidoMaterno"></label>
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Puesto)
+                        @Html.DropDownListFor(model => model.Puesto.IdPuesto, new SelectList(Model.Puesto.Puestos, "IdPuesto", "Nombre"), "Selecciona un puesto", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Puesto)
+                    </div> 
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Departamento)
+                        @Html.DropDownListFor(model => model.Departamento.IdDepartamento, new SelectList(Model.Departamento.Departamentos, "IdDepartamento", "Nombre"), "Selecciona un departamento", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Departamento)
+                    </div>
+                </div>
+                <br />
+                
+                <div class="row">
+                    <div class="col-md-1">
+                        <input type="submit" value="Guardar" class="btn btn-success">
+                    </div>
+                    <div class="col-md-1">
+                        @Html.ActionLink("Regresar", "GetAll", "Empleado", htmlAttributes: new { @class = "btn btn-danger" } )
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
